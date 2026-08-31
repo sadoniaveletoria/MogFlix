@@ -24,22 +24,6 @@ above. Instead:
 Updates will show up automatically through the regular plugin installer from then on -
 no manual rebuilding needed.
 
-## For maintainers: cutting a new release
-
-GitHub Actions (`.github/workflows/release.yml`) builds and publishes automatically
-whenever a tag starting with `v` is pushed:
-
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-That builds the plugin, packages it, and attaches the zip to a new GitHub Release.
-`repo.json` always points at `.../releases/latest/download/MogFlix.zip`, so it
-never needs manual updates between releases - just bump `AssemblyVersion` in
-`MogFlix.csproj` before tagging so Dalamud's installer knows an update is
-available.
-
 ## What you need
 
 - FFXIV with [XIVLauncher](https://xivlauncher.app/) + Dalamud already installed and working.
@@ -69,31 +53,6 @@ Treat this token like a password — anyone with it can query your server.
 
 You do **not** need port forwarding or a public plex.tv URL for this — the plugin just
 needs to reach the server on your local network.
-
-## 3. Build the plugin
-
-```bash
-cd MogFlix
-dotnet build -c Release
-```
-
-The `Dalamud.NET.Sdk` package reference in the `.csproj` automatically pulls in the
-Dalamud/ImGui assemblies you need to compile against — you don't need to manually
-reference your game install. If `dotnet build` complains it can't find the SDK, you may
-need a newer/older version than `11.0.0` in the `<Project Sdk="Dalamud.NET.Sdk/11.0.0">`
-line at the top of `MogFlix.csproj` — check the current version at
-https://github.com/goatcorp/Dalamud.NET.Sdk for whatever matches your installed Dalamud.
-
-This produces a `bin/Release/net8.0-windows/MogFlix.dll` (plus a generated
-`MogFlix.json` manifest next to it, courtesy of DalamudPackager).
-
-## 4. Load it in-game as a dev plugin
-
-1. In-game, open Dalamud Settings (`/xlsettings`) → **Experimental** tab.
-2. Under **Dev Plugin Locations**, add the path to your
-   `bin/Release/net8.0-windows/` (or `Debug`) folder.
-3. Open the plugin installer (`/xlplugins`) → **Dev Tools** tab → find
-   **MogFlix** → click **Load**.
 
 ## 5. Use it
 
@@ -130,11 +89,6 @@ can see it (including yourself).
 - **Remote/Plex Cloud access**: if your server isn't on your LAN, you can point
   `PlexServerUrl` at your public plex.tv-relayed URL instead, but that's outside
   the scope of this basic setup.
-- **Positioning the window**: right-click the window titlebar isn't exposed by
-  default in Dalamud's ImGui windows, but you can drag it anywhere and Dalamud
-  will remember its position between sessions automatically once you set
-  `RespectCloseHotkey`/position persistence — or just leave `AlwaysAutoResize`
-  and drag it to a corner once.
 
 ## Project structure
 
