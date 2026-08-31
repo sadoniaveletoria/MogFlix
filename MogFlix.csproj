@@ -1,0 +1,25 @@
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.0.0</Version>
+
+    <!-- Required Dalamud plugin manifest fields -->
+    <Name>MogFlix</Name>
+    <InternalName>MogFlix</InternalName>
+    <Author>sad0nia.velvet</Author>
+    <Punchline>Shows what you're watching on Plex as an in-game overlay.</Punchline>
+    <Description>Polls your Plex Media Server and displays the currently playing movie or episode, with play state and progress, in the server info bar and your own nameplate. Sharing this with other players requires the separate Honorific plugin.</Description>
+    <RepoUrl>https://github.com/sadoniaveletoria/MogFlix</RepoUrl>
+    <Tags>plex;media;nameplate;honorific;dtr</Tags>
+    <CategoryTags>utility</CategoryTags>
+    <DalamudApiLevel>15</DalamudApiLevel>
+    <IconUrl>https://raw.githubusercontent.com/sadoniaveletoria/MogFlix/main/images/icon.png</IconUrl>
+  </PropertyGroup>
+
+  <!-- DalamudPackager is bundled with Dalamud.NET.Sdk as of SDK v15 - no manual reference needed. -->
+
+</Project>

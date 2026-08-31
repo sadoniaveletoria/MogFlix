@@ -1,0 +1,19 @@
+[
+  {
+    "Author": "sad0nia.velvet",
+    "Name": "MogFlix",
+    "InternalName": "MogFlix",
+    "AssemblyVersion": "1.0.0.0",
+    "Description": "Polls your Plex Media Server and displays the currently playing movie or episode, with play state and progress, in your own nameplate and the server info bar. Sharing this with other players requires the separate Honorific plugin.",
+    "Punchline": "Shows what you're watching on Plex, in-game.",
+    "RepoUrl": "https://github.com/sadoniaveletoria/MogFlix",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 15,
+    "Tags": ["plex", "media", "nameplate", "honorific"],
+    "IconUrl": "https://raw.githubusercontent.com/sadoniaveletoria/MogFlix/main/images/icon.png",
+    "IsHide": false,
+    "DownloadLinkInstall": "https://github.com/sadoniaveletoria/MogFlix/releases/latest/download/MogFlix.zip",
+    "DownloadLinkTesting": "https://github.com/sadoniaveletoria/MogFlix/releases/latest/download/MogFlix.zip",
+    "DownloadLinkUpdate": "https://github.com/sadoniaveletoria/MogFlix/releases/latest/download/MogFlix.zip"
+  }
+]
