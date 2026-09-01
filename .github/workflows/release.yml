@@ -4,7 +4,12 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create/use for this release (e.g. v0.1.0)"
+        required: true
+        default: "v0.0.1-test"
 
 jobs:
   build:
@@ -38,8 +43,19 @@ jobs:
           Copy-Item $zip.FullName -Destination "MogFlix.zip"
           echo "zip_path=MogFlix.zip" >> $env:GITHUB_OUTPUT
 
+      - name: Determine release tag
+        id: tag
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            echo "tag_name=${{ github.event.inputs.tag }}" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "tag_name=${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
           files: ${{ steps.locate.outputs.zip_path }}
           generate_release_notes: true
