@@ -18,6 +18,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Install Dalamud
+        uses: Blooym/setup-dalamud@v1
+        with:
+          branch: release
+
       - name: Build
         run: dotnet build -c Release
 
