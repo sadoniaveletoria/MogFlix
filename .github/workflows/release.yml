@@ -7,6 +7,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".github/**"
+      - "repo.json"
+      - "images/**"
   workflow_dispatch: {}
 
 jobs:
