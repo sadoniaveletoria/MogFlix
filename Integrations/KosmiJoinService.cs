@@ -1,17 +1,17 @@
 using System;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using Dalamud.Game.Gui.ContextMenu;
 using Dalamud.Plugin.Services;
 
 namespace MogFlix.Integrations;
 
 /// <summary>
-/// Lets you jump to your own Kosmi watch-party room via '/mogflix join' or by
-/// right-clicking your own character and choosing "Join My Movie".
+/// Lets you jump to your own Kosmi watch-party room via '/mogflix join' or
+/// by right-clicking your own character and choosing "Join My Movie".
 ///
 /// This is intentionally self-only: it opens *your own* configured Kosmi
-/// link. It does not broadcast anything about you to other players.
+/// link. It does not broadcast anything about you to other players, and
+/// nothing about it touches your shared movie title in any way.
 /// </summary>
 public class KosmiJoinService : IDisposable
 {

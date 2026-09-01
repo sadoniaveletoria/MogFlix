@@ -121,6 +121,29 @@ Once Honorific is installed and enabled:
 With this on, an animated gradient title shows on your nameplate for anyone nearby who
 can see it (including yourself).
 
+## 7. Let others browse who's watching and request to join
+
+Sharing via Honorific only shows a nameplate title - it can't let someone browse a list
+of active watchers or ask to join. That needs a small backend, since Dalamud has no
+built-in way to query "who else is playing this plugin right now."
+
+The `mogflix-presence` folder (alongside this plugin's source) is a small Cloudflare
+Worker that provides exactly that: a presence list with automatic expiry, and a
+request/accept/decline flow for joining someone. See its own README for deployment
+steps (short version: `npm install && npx wrangler login && npx wrangler deploy`).
+
+Once deployed:
+
+1. Open `/mogflix`, find **"See who's watching"**, and paste your Worker's URL.
+2. The shared API key is baked into the plugin's code rather than a settings field - if
+   you rebuild from source, make sure `PresenceApiKey` in `PresenceService.cs` matches
+   whatever you set as `PRESENCE_API_KEY` on the Worker.
+3. Check **"Let others see me and request to join"**.
+4. Use **"Browse Who's Watching"** (or `/mogflix browse`) to see others and send requests.
+
+Nobody's actual Kosmi link is ever exposed through the browse list - it's only sent
+directly to a requester once you accept their request.
+
 ## Notes / things you might want to tweak
 
 - **Multiple people on one Plex server**: set "Filter by username" in settings so it
@@ -149,6 +172,15 @@ MogFlix/
     DtrBarService.cs           <- server info bar (DTR) entry
   Integrations/
     HonorificService.cs        <- shares the title via Honorific's IPC
+    KosmiJoinService.cs        <- self-only "Join My Movie" shortcut
+    PresenceService.cs         <- talks to the mogflix-presence Worker
   Windows/
-    ConfigWindow.cs            <- settings UI
+    ConfigWindow.cs             <- settings UI
+    BrowseWindow.cs             <- browse/request-to-join list
+    IncomingRequestWindow.cs    <- accept/decline popup
+
+mogflix-presence/              <- separate Cloudflare Worker (own README)
+  src/index.ts
+  src/PresenceRoom.ts
+  wrangler.toml
 ```

@@ -13,11 +13,12 @@ public class ConfigWindow : Window, IDisposable
     private string filterUsername;
     private int pollInterval;
     private string kosmiUrl;
+    private string presenceServerUrl;
 
     public ConfigWindow(Plugin plugin) : base("MogFlix - Settings##MogFlixConfig")
     {
         this.plugin = plugin;
-        Size = new Vector2(460, 620);
+        Size = new Vector2(460, 760);
         SizeCondition = ImGuiCond.FirstUseEver;
 
         serverUrl = plugin.Configuration.PlexServerUrl;
@@ -25,6 +26,7 @@ public class ConfigWindow : Window, IDisposable
         filterUsername = plugin.Configuration.FilterByUsername;
         pollInterval = plugin.Configuration.PollIntervalSeconds;
         kosmiUrl = plugin.Configuration.KosmiUrl;
+        presenceServerUrl = plugin.Configuration.PresenceServerUrl;
     }
 
     public override void Draw()
@@ -103,6 +105,33 @@ public class ConfigWindow : Window, IDisposable
         ImGui.Spacing();
         ImGui.Separator();
         ImGui.Spacing();
+        ImGui.TextDisabled("See who's watching (optional, needs a small server)");
+        ImGui.TextWrapped("Deploy the mogflix-presence Cloudflare Worker (see its README) to let " +
+                           "others browse a list of who's currently sharing and send join requests - " +
+                           "your Kosmi link itself is only revealed if you accept a request.");
+
+        ImGui.Text("Presence Server URL");
+        ImGui.SetNextItemWidth(-1);
+        ImGui.InputText("##PresenceServerUrl", ref presenceServerUrl, 256);
+        ImGui.TextDisabled("e.g. https://mogflix-presence.yoursubdomain.workers.dev");
+
+        ImGui.Spacing();
+        var enablePresence = plugin.Configuration.EnablePresenceSharing;
+        if (ImGui.Checkbox("Let others see me and request to join", ref enablePresence))
+            plugin.Configuration.EnablePresenceSharing = enablePresence;
+
+        if (plugin.PresenceService.LastError != null)
+            ImGui.TextColored(new Vector4(1f, 0.4f, 0.4f, 1f), $"Presence error: {plugin.PresenceService.LastError}");
+
+        ImGui.Spacing();
+        if (ImGui.Button("Browse Who's Watching"))
+        {
+            plugin.OpenBrowseWindow();
+        }
+
+        ImGui.Spacing();
+        ImGui.Separator();
+        ImGui.Spacing();
 
         var dtrBar = plugin.Configuration.ShowInDtrBar;
         if (ImGui.Checkbox("Show in server info bar (DTR)", ref dtrBar))
@@ -116,6 +145,7 @@ public class ConfigWindow : Window, IDisposable
             plugin.Configuration.FilterByUsername = filterUsername.Trim();
             plugin.Configuration.PollIntervalSeconds = pollInterval;
             plugin.Configuration.KosmiUrl = kosmiUrl.Trim();
+            plugin.Configuration.PresenceServerUrl = presenceServerUrl.Trim();
             plugin.Configuration.Save();
             plugin.PlexService.Start();
         }

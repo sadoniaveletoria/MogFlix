@@ -57,6 +57,19 @@ public class Configuration : IPluginConfiguration
     public string KosmiUrl { get; set; } = "";
 
     /// <summary>
+    /// URL of your deployed mogflix-presence Cloudflare Worker, e.g.
+    /// https://mogflix-presence.yoursubdomain.workers.dev
+    /// </summary>
+    public string PresenceServerUrl { get; set; } = "";
+
+    /// <summary>
+    /// If true, periodically announces your presence (name, world, and what
+    /// you're watching) to the presence server so others can see you in the
+    /// browse list and send join requests.
+    /// </summary>
+    public bool EnablePresenceSharing { get; set; } = false;
+
+    /// <summary>
     /// Optional: only show sessions belonging to this Plex username.
     /// Leave blank to show whatever is playing on the server (useful if
     /// multiple people use the same Plex server).
