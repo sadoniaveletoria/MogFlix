@@ -19,6 +19,7 @@ public class NowPlayingInfo
     public double ProgressPercent { get; set; }
     public string UserName { get; set; } = "";
     public string DeviceName { get; set; } = "";
+    public bool IsMusic { get; set; }
 }
 
 /// <summary>
@@ -33,6 +34,7 @@ internal class SessionCandidate
     public long ViewOffsetMs { get; set; }
     public PlexUser? User { get; set; }
     public PlexPlayer? Player { get; set; }
+    public bool IsMusic { get; set; }
 }
 
 /// <summary>
@@ -145,6 +147,7 @@ public class PlexService : IDisposable
                         ViewOffsetMs = t.ViewOffsetMs,
                         User = t.User,
                         Player = t.Player,
+                        IsMusic = true,
                     });
                 }
             }
@@ -194,6 +197,7 @@ public class PlexService : IDisposable
                 ProgressPercent = progress,
                 UserName = chosen.User?.Title ?? "",
                 DeviceName = chosen.Player?.DeviceTitle ?? "",
+                IsMusic = chosen.IsMusic,
             };
             LastError = null;
         }

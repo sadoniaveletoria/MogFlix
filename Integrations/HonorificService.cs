@@ -197,7 +197,7 @@ public class HonorificService : IDisposable
         {
             "paused" => "Paused",
             "buffering" => "Buffering",
-            _ => "Watching",
+            _ => info.IsMusic ? "Listening" : "Watching",
         };
 
         var prefix = $"{leadingWord} 『";
