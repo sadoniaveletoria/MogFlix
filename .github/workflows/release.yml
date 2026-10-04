@@ -86,9 +86,9 @@ jobs:
       - name: Update repo.json version
         shell: pwsh
         run: |
-          $json = Get-Content repo.json -Raw | ConvertFrom-Json
+          $json = @(Get-Content repo.json -Raw | ConvertFrom-Json)
           $json[0].AssemblyVersion = "${{ steps.version.outputs.version }}.0"
-          ($json | ConvertTo-Json -Depth 5) | Set-Content repo.json -Encoding utf8
+          ($json | ConvertTo-Json -Depth 5 -AsArray) | Set-Content repo.json -Encoding utf8
 
       - name: Commit repo.json version bump
         shell: pwsh
