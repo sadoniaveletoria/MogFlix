@@ -53,8 +53,16 @@ jobs:
         with:
           branch: release
 
+      - name: Compute version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = "${{ needs.tag.outputs.new_tag }}"
+          $version = $tag.TrimStart('v')
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
       - name: Build
-        run: dotnet build -c Release
+        run: dotnet build -c Release -p:AssemblyVersion=${{ steps.version.outputs.version }} -p:FileVersion=${{ steps.version.outputs.version }} -p:Version=${{ steps.version.outputs.version }}
 
       - name: Locate packaged zip
         id: locate
